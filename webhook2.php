@@ -77,7 +77,7 @@ if ($method == "POST") {
 	// Server Reply
 	$response = new \stdClass();
 	$response->speech = $speech;
-	$response->displayText = $text;
+	$response->fulfillmentText = $text;
 	$response->source = "webhook";
 
 	echo json_encode($response);
