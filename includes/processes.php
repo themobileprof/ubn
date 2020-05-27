@@ -16,7 +16,7 @@ class getACCount
 	//"code": "032",
 	//"longcode": "032080474",
 
-	function getAcc($acc_num, $bank_code = "032")
+	function getAcc($acc_num, $bank_code = "058")
 	{
 		$tranx = curl_get("https://api.paystack.co/bank/resolve?account_number=" . $acc_num . "&bank_code=" . $bank_code);
 
