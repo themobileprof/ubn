@@ -1,23 +1,21 @@
 <?php
-function processMessage($update)
-{
-	if ($update["result"]["action"] == "sayHello") {  //input.welcome
-		sendMessage(array(
-			"source" => $update["result"]["source"],
-			"speech" => "Hello from webhook",
-			"displayText" => "Hello from webhook",
-			"contextOut" => array()
-		));
+
+require 'vendor/autoload.php';
+
+use Google\Cloud\Dialogflow\V2\EntityTypesClient;
+
+$entityTypesClient = new EntityTypesClient();
+$projectId = 'banking-1-anoalk';
+$entityTypeId = 'account';
+$formattedEntityTypeName = $entityTypesClient->entityTypeName($projectId, $entityTypeId);
+
+$entityType = $entityTypesClient->getEntityType($formattedEntityTypeName);
+foreach ($entityType->getEntities() as $entity) {
+	print(PHP_EOL);
+	printf('Entity value: %s' . PHP_EOL, $entity->getValue());
+	print('Synonyms: ');
+	foreach ($entity->getSynonyms() as $synonym) {
+		print($synonym . "\t");
 	}
-}
-
-function sendMessage($parameters)
-{
-	echo json_encode($parameters);
-}
-
-$update_response = file_get_contents("php://input");
-$update = json_decode($update_response, true);
-if (isset($update["result"]["action"])) {
-	processMessage($update);
+	print(PHP_EOL);
 }
